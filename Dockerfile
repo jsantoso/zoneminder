@@ -1,10 +1,7 @@
 FROM ubuntu:22.04
 MAINTAINER Jeffrey Santoso
 
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ABE4C7F993453843F0AEB8154D0BF748776FFB04 \
-    && echo deb http://ppa.launchpad.net/iconnor/zoneminder-1.36/ubuntu jammy main > /etc/apt/sources.list.d/zoneminder.list 
-    
-RUN apt-get update ; apt-get dist-upgrade && apt-get autoremove ; apt-get autoclean;
+RUN apt-get update
 
 RUN apt-get install -y \
         apt-utils \
@@ -19,8 +16,13 @@ RUN apt-get install -y \
         iproute2 \
         iputils-ping \
         zip \
-        gnupg
+        gnupg1 \
+        gnupg2 
 
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ABE4C7F993453843F0AEB8154D0BF748776FFB04 \
+    && echo deb http://ppa.launchpad.net/iconnor/zoneminder-1.36/ubuntu jammy main > /etc/apt/sources.list.d/zoneminder.list 
+    
+RUN apt-get update ; apt-get dist-upgrade && apt-get autoremove ; apt-get autoclean;
 
 
 RUN DEBIAN_FRONTEND=noninteractive apt install --assume-yes zoneminder 
